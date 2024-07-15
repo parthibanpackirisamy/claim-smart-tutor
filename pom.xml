@@ -7,7 +7,9 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.3.1</version>
 
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
+		<!-- sample commit-->
+		<!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ups.hackathon</groupId>
 	<artifactId>claims_smart_tutor</artifactId>
