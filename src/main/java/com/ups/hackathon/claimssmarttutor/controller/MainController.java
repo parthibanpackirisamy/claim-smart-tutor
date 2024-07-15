@@ -1,5 +1,9 @@
 package com.ups.hackathon.claimssmarttutor.controller;
 
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import com.google.cloud.vertexai.api.GenerateContentResponse;
 import com.google.cloud.vertexai.generativeai.ContentMaker;
 import com.google.cloud.vertexai.generativeai.GenerativeModel;
@@ -28,13 +32,16 @@ public class MainController {
     @GetMapping("/getInstruction")
     public String getInstruction(@RequestParam String key, @RequestParam String type) throws IOException {
 
-        File document1File = new ClassPathResource("test.pdf").getFile();
-        byte[] document1Bytes = new byte[(int) document1File.length()];
-        try (FileInputStream document1FileInputStream = new FileInputStream(document1File)) {
-            document1FileInputStream.read(document1Bytes);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        //File document1File = new ClassPathResource("test.pdf").getFile();
+        Storage storage = StorageOptions.newBuilder().setProjectId("qwiklabs-gcp-01-e60d1c8078c2").build().getService();
+        Blob blob = storage.get(BlobId.of("claimssmarttutor", "test.pdf"));
+
+        byte[] document1Bytes = blob.getContent();// new byte[(int) document1File.length()];
+//        try (FileInputStream document1FileInputStream = new FileInputStream(document1File)) {
+//            document1FileInputStream.read(document1Bytes);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
         var document1 = PartMaker.fromMimeTypeAndData(
                 "application/pdf", document1Bytes);
 
