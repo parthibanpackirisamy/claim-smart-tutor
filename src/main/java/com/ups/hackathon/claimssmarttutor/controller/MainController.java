@@ -7,6 +7,7 @@ import com.google.cloud.vertexai.generativeai.PartMaker;
 import com.google.cloud.vertexai.generativeai.ResponseStream;
 import com.google.protobuf.AbstractMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +28,7 @@ public class MainController {
     @GetMapping("/getInstruction")
     public String getInstruction(@RequestParam String key, @RequestParam String type) throws IOException {
 
-        File document1File = ResourceUtils.getFile("classpath:test.pdf");
+        File document1File = new ClassPathResource("test.pdf").getFile();
         byte[] document1Bytes = new byte[(int) document1File.length()];
         try (FileInputStream document1FileInputStream = new FileInputStream(document1File)) {
             document1FileInputStream.read(document1Bytes);
