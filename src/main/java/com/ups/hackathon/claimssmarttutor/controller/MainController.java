@@ -90,16 +90,17 @@ public class MainController {
         var document1 = PartMaker.fromMimeTypeAndData(
                 "application/pdf", document1Bytes);
 
-        String prompt = "locate the row for the column having the value as \"" + key + "\" and get the value from the column \"" + type + "- What Do I Say\"";
-
+        //String prompt = "locate the row for the column having the value as \"" + key + "\" and get the value from the column \"" + type + "- What Do I Say\"";
+        String prompt = "SearchKey: "+key+"\n\nWhat is the Column value of "+type+" Response";
         var content = ContentMaker.fromMultiModalData(document1, dataMap.getOrDefault("PROMPT", prompt));
 
         System.out.println(dataMap.getOrDefault("PROMPT", prompt));
 
-        String instruction = "Use the information only from input documents and don't add any additional information.\nKeep the input document as reference, and if we ask any data, fetch data from the document by matching the rows and columns.\nFor example, i give a key from a column, you locate the key in that column and based on the data that i ask fetch data from that matching row and share the details";
+        //String instruction = "Use the information only from input documents and don't add any additional information.\nKeep the input document as reference, and if we ask any data, fetch data from the document by matching the rows and columns.\nFor example, i give a key from a column, you locate the key in that column and based on the data that i ask fetch data from that matching row and share the details";
+        String instruction = "Use the information only from input documents and don't add any additional information.\nKeep the input document as a reference, and if we ask for any data, fetch data from the document by matching the rows and columns.\nFor example, i give a key from a Eligibility Results column, you locate the key in that column, and based on the type that i ask fetch data from that matching row and column and share the details.\n\ndon't exclude any content from the matching column value return the complete match value.\n\ndon't consider previous results and exactly match relevant column values";
 
         GenerativeModel generativeModel = new GenerativeModel.Builder()
-                .setModelName("gemini-1.5-flash-001")
+                .setModelName("gemini-1.5-pro-001")
                 .setVertexAi(getVertexAi)
                 .setGenerationConfig(generationConfig)
                 .setSafetySettings(getSafetySettings())
