@@ -5,25 +5,19 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import com.google.cloud.vertexai.VertexAI;
-import com.google.cloud.vertexai.api.GenerateContentResponse;
-import com.google.cloud.vertexai.api.GenerationConfig;
-import com.google.cloud.vertexai.api.HarmCategory;
-import com.google.cloud.vertexai.api.SafetySetting;
+import com.google.cloud.vertexai.api.*;
 import com.google.cloud.vertexai.generativeai.ContentMaker;
 import com.google.cloud.vertexai.generativeai.GenerativeModel;
 import com.google.cloud.vertexai.generativeai.PartMaker;
 import com.google.cloud.vertexai.generativeai.ResponseStream;
-import com.google.protobuf.AbstractMessage;
 import com.ups.hackathon.claimssmarttutor.DataModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+
 
 @RestController
 public class MainController {
@@ -117,10 +111,17 @@ public class MainController {
         ResponseStream<GenerateContentResponse> responseStream = generativeModel.generateContentStream(content);
 
         // Do something with the response
-        return responseStream.stream().
-                map(AbstractMessage::toString)
-                .collect(Collectors.joining(" "));
-
+//        return responseStream.stream().
+//                map(AbstractMessage::toString)
+//                .collect(Collectors.joining(" "));
+        // Do something with the response
+        String result = responseStream.stream()
+                .map(GenerateContentResponse::getCandidatesList)
+                .flatMap(Collection::stream).map(Candidate::getContent)
+                .map(Content::getPartsList).flatMap(Collection::stream)
+                .map(Part::getText).collect(Collectors.joining(" "));
+        System.out.println(result);
+        return result;
 
     }
 
