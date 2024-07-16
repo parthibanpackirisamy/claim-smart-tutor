@@ -60,7 +60,7 @@ public class AppConfiguration {
                 .setVertexAi(getVertexAi)
                 .setGenerationConfig(generationConfig)
                 .setSafetySettings(getSafetySettings())
-                .setSystemInstruction(ContentMaker.fromMultiModalData("Use the information only from input documents and don't add any additional information.\n\nPlease check all the columns below and combine the answers\n1.Notes \n2.Eligibility Results \n3.Description\n4. Receiver - What Do I Say \n5.Shipper - What Do I Say"))
+                .setSystemInstruction(ContentMaker.fromMultiModalData("Use the information only from input documents and don't add any additional information.\n\nPlease check all the columns below and combine the answers\n1.Notes \n2.Eligibility Results \n3.Description\n4. Receiver - What Do I Say \n5.Shipper - What Do I Say \n and provide only 3 lines of response" ))
                 .build();
     }
 
